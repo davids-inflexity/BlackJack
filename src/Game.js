@@ -194,7 +194,10 @@ class Game extends Component {
                 });
                 e.preventDefault();
                 this.sums();
-                window.responsiveVoice.speak("Dealerovi karty byly " + this.state.cardActive_value + ' a ' + this.state.cardActive_value2, "Czech Female");
+                for (let i=0; i < this.state.packagesForDealer.length; i++) {
+                    window.responsiveVoice.speak("Dealerovi karty byly " + this.state[`cardActive${i}_value`] , "Czech Female");
+
+                }
                 this.compareSums();
                 if (this.state.packagesForDealer < 9) {
                     this.newCardForDealer();
@@ -375,7 +378,7 @@ class Game extends Component {
                     playing: true,
                     selectedPackages: selectedPackages,
                     packagesForDealer: selectedPackages,
-                    showDeal: true,
+                    showDeal: true
                 });
             }, 2150 * this.state.selectedPackages);
         }
