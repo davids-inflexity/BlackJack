@@ -383,16 +383,20 @@ class Game extends Component {
             }, 2150 * this.state.selectedPackages);
         }
         cards.push(cardDeckOne.cardValue, cardDeckTwo.cardValue);
-        this.state.cards = cards;
+        this.setState({
+          cards: cards,
+        });
+
 
         cardsDealer.push(newActiveCard.cardValue, newActiveCard2.cardValue);
-        this.state.cardsDealer = cardsDealer;
+        this.setState({
+            cardsDealer: cardsDealer,
+        });
     }
 
     newCardForDealer() {
         this.numberPackagesDeal(this.state.packagesForDealer +1);
         let selectedPackages = this.state.packagesForDealer;
-        let i;
         for (let i=0; i< 10; i++) {
             let cardActive =
                 selectedPackages === i
@@ -430,8 +434,7 @@ class Game extends Component {
     }
 
     nextCard () {
-        let selectedPackages = this.state.selectedPackages;
-        let i;
+        let selectedPackages = this.state.selectedPackages;;
         for (let i=0; i< 10; i++) {
             let cardDeck =
                 selectedPackages === i
@@ -471,7 +474,7 @@ class Game extends Component {
         const { selectedPackages } = this.state;
         const { packagesForDealer } = this.state;
         let cards = [];
-        let cardsD = [];
+        let cardsDealer = [];
         // random active card
         let newActiveCard = this.generateNewCardV2();
         let newActiveCard2 =
@@ -525,10 +528,14 @@ class Game extends Component {
         );
         this.buttonRefresh.blur();
         cards.push(cardDeckOne.cardValue, cardDeckTwo.cardValue);
-        this.state.cards = cards;
+        this.setState({
+            cards: cards,
+        });
 
-        cardsD.push(newActiveCard.cardValue, newActiveCard2.cardValue);
-        this.state.cardsDealer = cardsD;
+        cardsDealer.push(newActiveCard.cardValue, newActiveCard2.cardValue);
+        this.setState({
+            cardsDealer: cardsDealer,
+        });
 
     }
 
@@ -566,7 +573,6 @@ class Game extends Component {
 
     render() {
         const {
-            playing,
             display,
             sounds: stateSounds,
             voices
