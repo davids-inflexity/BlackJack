@@ -1,0 +1,68 @@
+.Card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+    height: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    -webkit-box-shadow: 2px 5px 5px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 5px 5px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 5px 5px 0px rgba(0,0,0,0.5);
+}
+
+.Card_container.three-box {
+    width: 100%;
+    min-height: 225px;
+}
+
+
+.card-box {
+    float: left;
+    width: 9%;
+}
+
+
+.Card.card--black {
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%);
+    background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%);
+    background: -ms-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%);
+}
+
+.Card.card--red {
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 100%);
+    background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 100%);
+    background: -ms-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 100%);
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 100%);
+}
+
+.Card .Card__label {
+    font-size: 16px;
+    color: white;
+}
+
+.card-active .Card .Card__label {
+    display: none;
+}
+
+.card-active.show .Card .Card__label {
+    display: block;
+}
+
+.card-active:first-of-type .Card .Card__label {
+    display: block;
+}
+
+.Card .Card__label .Card__value {
+    font-size: 36px;
+    font-weight: bold;
+}

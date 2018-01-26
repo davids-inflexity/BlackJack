@@ -1,7 +1,7 @@
 // shuffle array function
 export function shuffleArray(array) {
     let i = array.length - 1;
-    for (; i > 0; i--) {
+    for (i; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         const temp = array[i];
         array[i] = array[j];
@@ -25,3 +25,27 @@ export function select_sound(array, name) {
 
     return array[i];
 }
+
+// keyCode CONST
+export const NUMPAD = {
+    KEY_ONE: 97,
+    KEY_TWO: 98,
+    KEY_THREE: 99,
+};
+
+export const KEYBOARD = {
+    SHIFT: 16,
+    CTRL: 17,
+    ALT: 18,
+    KEY_ONE: 49,
+    KEY_TWO: 50,
+    KEY_THREE: 51
+};
+
+// allowed key codes
+export const PLAYABLE_KEYS = [
+
+    KEYBOARD.ALT,
+    KEYBOARD.SHIFT,
+    KEYBOARD.CTRL
+];
