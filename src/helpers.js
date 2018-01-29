@@ -49,3 +49,19 @@ export const PLAYABLE_KEYS = [
     KEYBOARD.SHIFT,
     KEYBOARD.CTRL
 ];
+
+export const KEYS_TO_START = [
+    NUMPAD.KEY_ONE,
+    NUMPAD.KEY_TWO,
+    NUMPAD.KEY_THREE,
+    KEYBOARD.KEY_ONE,
+    KEYBOARD.KEY_TWO,
+    KEYBOARD.KEY_THREE
+];
+
+export const TIME = {
+    DEFAULT: 60,
+    ONE_PACKAGE: 15,
+    TWO_PACKAGES: 30,
+    THREE_PACKAGES: 45
+};

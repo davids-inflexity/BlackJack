@@ -7,11 +7,20 @@ class Card extends Component {
         let cardClass, cardColor = "";
 
         if (this.props.color === 0) {
-            cardClass = "Card card--black";
+            cardClass = "Card card--black cross";
             cardColor = "black"
-        } else {
-            cardClass = "Card card--red"
+        }
+        if(this.props.color === 1) {
+            cardClass = "Card card--red heart";
             cardColor = "red"
+        }
+        if (this.props.color === 2) {
+            cardClass = "Card card--black leaves";
+            cardColor = "black"
+        }
+        if(this.props.color === 3) {
+            cardClass = "Card card--red peaks";
+            cardColor = "black"
         }
 
         return (
