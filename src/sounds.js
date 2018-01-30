@@ -1,5 +1,6 @@
 import success from './voices/success.mp3'
 import failure from './voices/failure.mp3'
+import flip from './voices/flip-card.mp3'
 
 export default [
     {
@@ -9,6 +10,10 @@ export default [
     {
         name: 'failure',
         url: failure
+    },
+    {
+        name: 'flip',
+        url: flip
     }
 
 ];

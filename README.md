@@ -16,5 +16,4 @@ popis hry:
 - volba sázek: když hráč stiskne 1 = nejnižší bet = 5 žetonů, když stiskne 2 = střední bet = 10 žetonů, když stiskne 3 = vysoký bet = 20 žetonů
 - když hráč stiskne klávesu shift, přečte se mu zbývající počet žetonů, když stiskne alt, přečtou se mu jeho karty
 
-
 # Install project (components)

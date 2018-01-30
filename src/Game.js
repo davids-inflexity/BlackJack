@@ -6,6 +6,7 @@ import Sound from 'react-sound';
 
 import './Game.css';
 import './helpers.css';
+import chip from './img/red-chip.png';
 
 var FontAwesome = require('react-fontawesome');
 
@@ -191,31 +192,46 @@ class Game extends Component {
             this.numberBet();
         }
 
+        if (e.keyCode === 82) {
+            this.newGame();
+        }
+
+
         // select which card package should be compared or handle other pressed key
         switch (e.keyCode) {
-            // other keys
-            case 17:
+            case 17: // new card for player
                 if( e.keyCode === 17) {
-                    e.preventDefault();
-                    if (this.state.selectedPackages < 9) {
-                        this.numberPackages(this.state.selectedPackages +1);
-                        this.nextCard();
-                        if (this.state.voices) {
-                            window.responsiveVoice.speak(this.getNewDeckStatus(true), "Czech Female", { onend: this.addEventListeners });
+                    this.setState({
+                        soundName: 'flip',
+                        soundStatus: 'play'
+                    });
+                    this.startGameTimer = window.setTimeout(() => {
+                        e.preventDefault();
+                        if (this.state.selectedPackages < 9) {
+                            this.numberPackages(this.state.selectedPackages +1);
+                            this.nextCard();
+                            if (this.state.voices) {
+                                window.responsiveVoice.speak(this.getNewDeckStatus(true), "Czech Female", { onend: this.addEventListeners });
 
-                            this.startGameTimer = window.setTimeout(() => {
-                                this.setState({
-                                    playing: true,
+                                this.startGameTimer = window.setTimeout(() => {
+                                    this.setState({
+                                        playing: true,
+                                    });
                                 });
-                            }, 2150 * this.state.selectedPackages);
+                            }
                         }
-                    }
-                    this.mySums();
+                        this.sums();
+                    },2000);
+
                     this.dealSums();
+                    if(this.state.score <= 0) {
+                        window.responsiveVoice.speak("Konec hry už nemáte žetony ", "Czech Female");
+                        this.removeEventListeners();
+                    }
                 }
                 break;
 
-            case 18:
+            case 18: // read your card
                 if(e.keyCode === 18) {
                     e.preventDefault();
                     if (!this.state.voices) return;
@@ -226,26 +242,25 @@ class Game extends Component {
                             this.setState({
                                 playing: true,
                             });
-                        }, 2150 * this.state.selectedPackages);
+                        });
                     }
                 }
                 break;
 
-            case 13:
+            case 13: // stand => laying your card and compare to card dealer
                 if (e.keyCode === 13) {
                     this.setState({
                         showDeal:false
 
                     });
                     e.preventDefault();
-                    this.mySums();
                     this.dealSums();
                     this.sums();
                     this.compareSums();
-                    if (this.state.packagesForDealer < 9) {
-                        this.newCardForDealer();
+
+                    if (this.state.voices) {
+                        window.responsiveVoice.speak(this.getNewDeckStatus(true) + ' součet dealerových karet byl ' + this.state.sumsDealer + " Jestli chceš pokračovat stiskni mezerník", "Czech Female", {onend: this.addEventListeners});
                     }
-                    this.newCards();
 
                     if(this.state.score <= 0) {
                         window.responsiveVoice.speak("Konec hry už nemáte žetony ", "Czech Female");
@@ -254,16 +269,37 @@ class Game extends Component {
                 }
                 break;
 
-            case 16: {
+            case 32:
+                if (e.keyCode === 32) {
+                    let newScore = this.state.yourBet;
+                    this.setState({
+                        score: this.state.score - newScore
+
+                    });
+                    this.newCards();
+                    if(this.state.score <= 0) {
+                        window.responsiveVoice.speak("Konec hry už nemáte žetony ", "Czech Female");
+                        this.removeEventListeners();
+                    }
+                }
+                break;
+
+            case 16: // read number remaining chips
                 if (e.keyCode === 16) {
                     window.responsiveVoice.speak("Zbývá vám " + this.state.score+ " žetonů" , "Czech Female");
                 }
                 break;
-            }
 
             default:
                 break;
         }
+    }
+
+    hasAce () {
+        let myCards = this.state.cards;
+        let ace = myCards.includes('Ace');
+
+        return ace;
     }
 
     numberBet () {
@@ -303,7 +339,7 @@ class Game extends Component {
         let mySums = this.state.cards;
         for (let i=0; i < mySums.length; i++) {
             if (mySums[i] === 'Ace') {
-                mySums[i] = 11;
+                mySums[i] =11;
             }
 
             if(mySums[i]=== 'Jack' || mySums[i] === 'Queen' || mySums[i] === 'King') {
@@ -335,39 +371,46 @@ class Game extends Component {
         let reducer = (accumulator, currentValue) => accumulator + currentValue;
         let reducerAll = myResult.reduce(reducer);
 
+        if (reducerAllDeal >= 11) {
+            for (let y=0; y < dealSums.length; y++) {
+                if(dealSums[y] === 'Ace') {
+                    dealSums[y]= 1;
+                }
+            }
+        }
+
+        if (reducerAll >= 11) {
+            for (let j=0; j < mySums.length; j++) {
+                if(mySums[j] === 'Ace') {
+                    mySums[j]= 1;
+                }
+            }
+        }
+
         this.setState({
             sumsDealer: reducerAllDeal,
             mySums: reducerAll
 
         });
-}
 
-    mySums () {
-        this.sums();
-        let mySums = this.state.mySums;
-        let newScore = this.state.yourBet;
-        if (mySums > 21) {
+        if (reducerAll > 21) {
+            let newScore = this.state.yourBet;
             this.setState({
                 score: this.state.score - newScore,
-                selectedPackages: 2,
-                packagesForDealer: 2,
-                soundStatus: 'play',
-                soundName: 'failure'
+
             });
-            this.newCards();
+            window.responsiveVoice.speak("Součet tvých karet je větší než 21 prohrál jsi pokud chceš znovu rozdat stiskni mezerník" , "Czech Female");
+
         }
 
-        if (mySums === 21) {
+        if (reducerAll === 21) {
+            let newScore = this.state.yourBet;
             this.setState({
                 score: this.state.score + (2*newScore),
-                selectedPackages: 2,
-                packagesForDealer: 2,
-                soundStatus: 'play',
-                soundName: 'success'
             });
-            this.newCards();
+            window.responsiveVoice.speak("Máš blackjack vyhrál jsi pokud chceš znovu rozdat stiskni mezerník" , "Czech Female");
         }
-    }
+}
 
     dealSums () {
         this.sums();
@@ -378,10 +421,8 @@ class Game extends Component {
             this.setState({
                 score: this.state.score - newScore,
                 packagesForDealer: 2,
-                soundStatus: 'play',
-                soundName: 'failure'
             });
-            this.newCards();
+            window.responsiveVoice.speak("Dealer má blacjack prohrál jsi" , "Czech Female");
         }
     }
 
@@ -429,10 +470,11 @@ class Game extends Component {
             });
         }
 
-        if (sumsDealer < mySums && sumsDealer <= 17) {
+        if (sumsDealer < mySums) {
             this.newCardForDealer();
         }
     }
+
 
     newCards () {
         let selectedPackages = 2;
@@ -453,6 +495,13 @@ class Game extends Component {
                 ? this.generateNewCardV2()
                 : null;
 
+        if (cardDeckOne.cardValue && cardDeckOne.color === cardDeckTwo.cardValue && cardDeckTwo.color) {
+             cardDeckOne = this.generateNewCardV2();
+            cardDeckTwo =
+                selectedPackages === 2
+                    ? this.generateNewCardV2()
+                    : null;
+        }
         this.setState({
             cardActive1_value: newActiveCard.cardValue,
             cardActive1_color: newActiveCard.color,
@@ -468,8 +517,15 @@ class Game extends Component {
 
             score: this.state.score,
         });
+
+        cards.push(cardDeckOne.cardValue, cardDeckTwo.cardValue);
+        cardsDealer.push(newActiveCard.cardValue, newActiveCard2.cardValue);
+        this.setState({
+          cards: cards,
+          cardsDealer: cardsDealer,
+        });
         if (this.state.voices) {
-            window.responsiveVoice.speak(this.getDeckStatus(true), "Czech Female", { onend: this.addEventListeners });
+            window.responsiveVoice.speak(this.getNewDeckStatus(true), "Czech Female", { onend: this.addEventListeners });
 
             this.startGameTimer = window.setTimeout(() => {
                 this.setState({
@@ -480,12 +536,6 @@ class Game extends Component {
                 });
             },);
         }
-        cards.push(cardDeckOne.cardValue, cardDeckTwo.cardValue);
-        cardsDealer.push(newActiveCard.cardValue, newActiveCard2.cardValue);
-        this.setState({
-          cards: cards,
-          cardsDealer: cardsDealer,
-        });
     }
 
     newCardForDealer() {
@@ -527,7 +577,7 @@ class Game extends Component {
     }
 
     nextCard () {
-        let selectedPackages = this.state.selectedPackages;;
+        let selectedPackages = this.state.selectedPackages;
         for (let i=0; i< 10; i++) {
             let cardDeck =
                 selectedPackages === i
@@ -540,7 +590,6 @@ class Game extends Component {
                     [cardDeck ? `cardDeck${i}_color` : null]: cardDeck ? cardDeck.color : null,
                 }
             });
-
             if(selectedPackages === i) {
                 this.state.cards.push(cardDeck.cardValue);
             }
@@ -697,7 +746,7 @@ class Game extends Component {
                             : null
                     }
                     <div id="Selected" style={{ display: this.state.infoBox ? "flex" : "none" }}   >
-                        <p> Zvol si svoji výši svých sázek pomocí číselných kláves 1 až 3</p>
+                        <p> Zvol si výši svých sázek pomocí číselných kláves 1 až 3</p>
                     </div>
                     <div className="Card__container three-box">
                         {packagesDealer}
@@ -709,7 +758,7 @@ class Game extends Component {
 
                 <div className="score">
                     {this.state.score}
-                    <span> Chips</span>
+                    <span> <img src={chip} className="chips"/></span>
                 </div>
 
                 <div className="options options-display">
@@ -763,16 +812,17 @@ class Game extends Component {
         return text;
     }
 
+
     getNewDeckStatus(textSwitch) {
         let text = "";
         if (textSwitch) {
-            text = ' Vaše karty jsou ';
+            text = ' Tvoje karty jsou ';
         } else {
             text = "";
         }
 
         if(this.state.voices) {
-            for (let i = 1; i < this.state.selectedPackages + 1; i++) {
+            for (let i = 1; i < this.state.selectedPackages +1; i++) {
                 let reader = this.reader(this.state[`cardDeck${i}_value`]);
                 text += reader.valueStr;
             }

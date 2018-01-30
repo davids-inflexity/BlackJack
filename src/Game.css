@@ -115,6 +115,9 @@
 /* game score */
 .score {
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 100px;
     left: 15px;
     padding: 10px;
@@ -125,10 +128,14 @@
     -webkit-text-stroke: 1px black;
 }
 
+
 .score span {
-    font-size: 24px;
-    color: #ff0000;
-    -webkit-text-stroke: 1px #ffff;
+    display: flex;
+}
+
+.score span img {
+    height: 50px;
+    margin-left: 10px;
 }
 
 /* responsive design */
