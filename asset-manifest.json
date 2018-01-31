@@ -1,14 +1,12 @@
 {
-  "main.css": "static/css/main.1940511a.css",
-  "main.css.map": "static/css/main.1940511a.css.map",
-  "main.js": "static/js/main.768028bc.js",
-  "main.js.map": "static/js/main.768028bc.js.map",
-  "static\\media\\back.mp3": "static/media/back.0ee66d98.mp3",
+  "main.css": "static/css/main.6b81de26.css",
+  "main.css.map": "static/css/main.6b81de26.css.map",
+  "main.js": "static/js/main.ece2846c.js",
+  "main.js.map": "static/js/main.ece2846c.js.map",
+  "static\\media\\card-pattern.jpg": "static/media/card-pattern.55879235.jpg",
   "static\\media\\failure.mp3": "static/media/failure.7bb1881b.mp3",
-  "static\\media\\front.mp3": "static/media/front.36eb7b12.mp3",
-  "static\\media\\left.mp3": "static/media/left.19da06f0.mp3",
-  "static\\media\\middle.mp3": "static/media/middle.324be680.mp3",
-  "static\\media\\right.mp3": "static/media/right.e0496b7c.mp3",
+  "static\\media\\flip-card.mp3": "static/media/flip-card.55deddd4.mp3",
+  "static\\media\\red-chip.png": "static/media/red-chip.943a4112.png",
   "static\\media\\success.mp3": "static/media/success.3e1e24bb.mp3",
-  "static\\media\\tick.mp3": "static/media/tick.9133cb3c.mp3"
+  "static\\media\\table-texture2.jpg": "static/media/table-texture2.bd55f906.jpg"
 }
