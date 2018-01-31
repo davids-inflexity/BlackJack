@@ -192,12 +192,10 @@ class Game extends Component {
             this.numberBet();
         }
         if(this.state.playing === true) {
-            if (e.keyCode === 82) {
+            if (e.keyCode === 82) { // "R" new game
                 this.newGame();
             }
 
-
-            // select which card package should be compared or handle other pressed key
             switch (e.keyCode) {
                 case 17: // new card for player
                     if( e.keyCode === 17) {
@@ -274,7 +272,7 @@ class Game extends Component {
                     }
                     break;
 
-                case 32:
+                case 32: // space bar new cards
                     if (e.keyCode === 32) {
                         if( this.state.selectedPackages > 2 ) {
                             this.setState({
@@ -302,15 +300,13 @@ class Game extends Component {
                         window.responsiveVoice.speak("Zbývá vám " + this.state.score+ " žetonů" , "Czech Female");
                     }
                     break;
-
                 default:
                     break;
             }
         }
-
     }
 
-
+    // function for your start bet
     numberBet () {
         let numberBet = this.state.numberBet;
         let yourBet;
@@ -343,6 +339,7 @@ class Game extends Component {
         }, () => this.newGame());
     }
 
+    // function for sums value your cards and dealer cards and compare value type "String" to number
     sums () {
         let dealSums = this.state.cardsDealer;
         let mySums = this.state.cards;
@@ -359,7 +356,6 @@ class Game extends Component {
         if (mySums[0] === 'Ace' && mySums[1] === 'Ace') {
             mySums[0] = 11;
             mySums[1] = 1;
-
         }
 
         for (let i=0; i < dealSums.length; i++) {
@@ -374,7 +370,6 @@ class Game extends Component {
             if (dealSums[0] === 'Ace' && dealSums[1] === 'Ace') {
                 dealSums[0] = 11;
                 dealSums[1] = 1;
-
             }
         }
 
@@ -392,7 +387,6 @@ class Game extends Component {
         let reducer = (accumulator, currentValue) => accumulator + currentValue;
         let reducerAll = myResult.reduce(reducer);
 
-
         this.setState({
             sumsDealer: reducerAllDeal,
             mySums: reducerAll
@@ -401,7 +395,6 @@ class Game extends Component {
         if (reducerAll > 21) {
             this.setState({
                 score: this.state.score,
-
             });
             window.responsiveVoice.speak("Součet vašich karet je větší než 21 " + '  ' + " prohrál jsi" , "Czech Female");
         }
@@ -419,7 +412,6 @@ class Game extends Component {
             let reducerAllDealRepeat = dealResultRepeat.reduce(reducerDealRepeat);
             this.setState({
                 sumsDealer: reducerAllDealRepeat,
-
             });
         }
 
@@ -441,6 +433,7 @@ class Game extends Component {
         }
 }
 
+    // condition for generate next card for dealer
     nextCardForDealer () {
        let dealSum= this.state.sumsDealer;
        let mySum = this.state.mySums;
@@ -453,6 +446,7 @@ class Game extends Component {
     }
 
 
+    // compare sums your card values and dealer card values
     compareSums () {
         let sumsDealer = this.state.sumsDealer;
         let mySums = this.state.mySums;
@@ -498,6 +492,7 @@ class Game extends Component {
         }
     }
 
+    // generate new cards for you and for dealer
     newCards () {
         let selectedPackages = 2;
         let cards = [];
@@ -560,6 +555,7 @@ class Game extends Component {
         }
     }
 
+    // this generate new card for dealer
     newCardForDealer() {
         this.numberPackagesDeal(this.state.packagesForDealer +1);
         let selectedPackages = this.state.packagesForDealer;
@@ -599,6 +595,7 @@ class Game extends Component {
         })
     }
 
+    // this generate new card or cards for you
     nextCard () {
         let selectedPackages = this.state.selectedPackages;
         for (let i=0; i< 10; i++) {
@@ -809,11 +806,6 @@ class Game extends Component {
         );
     }
 
-    /**
-     * Return string of cards
-     * @param {*} textSwitch
-     * @returns {string}
-     */
     getDeckStatus(textSwitch) {
         let text = "";
         let cardActiveStr = "";
@@ -832,10 +824,8 @@ class Game extends Component {
             }
             return text;
         }
-
         return text;
     }
-
 
     getNewDeckStatus(textSwitch) {
         let text = "";
@@ -852,10 +842,10 @@ class Game extends Component {
             }
             return text;
         }
-
         return text;
     }
 
+    // function for read czech translate value cards or converted string number to czech string
     reader(cardValue) {
         let cardStrings = {
             valueStr: '',

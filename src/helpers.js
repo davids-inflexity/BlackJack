@@ -59,9 +59,3 @@ export const KEYS_TO_START = [
     KEYBOARD.KEY_THREE
 ];
 
-export const TIME = {
-    DEFAULT: 60,
-    ONE_PACKAGE: 15,
-    TWO_PACKAGES: 30,
-    THREE_PACKAGES: 45
-};

@@ -2,7 +2,6 @@
 GameName for blind
 
 popis hry:
-
 - hráč dostane 100 žetonů
 - na začátku hry se vygenerují 4 karty (2 pro hráče a dva pro dealera)
 - hráč své karty uvidí hned, ale dealerovu uvidí jen jednu, druhá bude "skrytá"
